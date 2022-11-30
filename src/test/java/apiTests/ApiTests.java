@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import java.time.DateTimeException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -80,6 +82,18 @@ public class ApiTests {
                 .extract().as(MemberPojo.class);
 
         Assertions.assertTrue(lastMember.getLaunches().size()>0);
+    }
+
+    @Test
+    public void checkNextDate(){
+        Response response = given().get("/launches/next")
+                .then().log().body()
+                .extract().response();
+
+        JsonPath jsonPath = response.jsonPath();
+
+        String dateTime = jsonPath.getString("date_utc");
+        Assertions.assertEquals("2022-11-01T13:41:00.000Z", dateTime);
     }
 
 }
