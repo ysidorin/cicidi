@@ -38,5 +38,6 @@ def uiTest = tasks.register("uiTests", Test) {
 }
 
 test {
+    maxParallelForks 3
     useJUnitPlatform()
 }
